@@ -9,8 +9,8 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class MessageProvider implements Runnable{
-	public void MockProvide() {
+public class MessageProvider implements Runnable {
+	public void MockProvide(String s) {
 		try {
 			// Create a ConnectionFactory
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
@@ -32,7 +32,7 @@ public class MessageProvider implements Runnable{
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 			// Create a messages
-			String text = "Hello world! From: "
+			String text = "Hello world! From: "+s + " "
 					+ Thread.currentThread().getName() + " : "
 					+ this.hashCode();
 			TextMessage message = session.createTextMessage(text);
@@ -53,7 +53,9 @@ public class MessageProvider implements Runnable{
 
 	@Override
 	public void run() {
-		MockProvide();
-		
+		for (int i = 0; i < 3; i++) {
+			MockProvide("let's get it started");
+		}
+
 	}
 }
